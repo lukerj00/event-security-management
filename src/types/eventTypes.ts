@@ -42,4 +42,4 @@ export interface Event {
   contact_information: ContactInformation;
   event_details: EventDetails;
   security_history: SecurityHistory;
-}
+} 

@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
 const ASSISTANT_ID = "asst_zSICXZIWrsbVmxoiM6vifpC7"; // Your Assistant ID
-const FINE_TUNED_MODEL = "ft:gpt-4o-mini-2024-07-18:personal:v3-evildone:AowXM0mB";
+// const FINE_TUNED_MODEL = "ft:gpt-4o-mini-2024-07-18:personal:v3-evildone:AowXM0mB";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -53,8 +53,11 @@ async function retrieveRelevantInformation(input: RiskAssessmentInput): Promise<
       const runStatus = await openai.beta.threads.runs.retrieve(thread.id, run.id);
       if (runStatus.status === "completed") {
         const messages = await openai.beta.threads.messages.list(thread.id);
-        response = messages.data[0].content[0].text.value;
-        console.log('Assistant Response:', response);
+        const messageContent = messages.data[0]?.content[0];
+        if (messageContent?.type === 'text') {
+            response = messageContent.text.value;
+            console.log('Assistant Response:', response);
+        }
         break;
       }
       await new Promise(resolve => setTimeout(resolve, 500)); // Poll every 500ms

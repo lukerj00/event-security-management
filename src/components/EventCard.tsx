@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Event } from '../types/event';
+import { Event } from '../types/eventTypes';
 import { 
   Calendar, 
   Clock, 
@@ -27,7 +27,7 @@ import {
   Laptop,
   UserCog
 } from 'lucide-react';
-import { classifyEvent, assessEventRisk, getTargetAttractiveness } from '../utils/openai';
+import { classifyEvent, assessEventRisk, getTargetAttractiveness } from '../services/openai';
 
 interface EventCardProps {
   event: Event;
